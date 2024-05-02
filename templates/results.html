@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>tamatebaco分量表 - 注文数: {{ cans }} 缶</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .container {
+            max-width: 800px;
+        }
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.9em;
+        }
+        .card-header p {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="mb-4">tamatebaco分量</h1>
+        <p>注文数: {{ cans }} 缶</p>
+        {% for recipe, ingredients, _, unit, can in calculated_ingredients %}
+        <div class="card mb-4">
+            <div class="card-header bg-info text-white">
+                <h3 class="card-title">{{ recipe }}</h3>
+                <p class="text-right">単位数: {{ unit }} </p>
+                <p class="text-right">必要枚数: {{ math.ceil(cans * can) }}</p>
+            </div>
+            <div class="card-body">
+                <table class="table table-bordered table-hover">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>材料</th>
+                            <th>必要量</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for ingredient, quantity in ingredients.items() %}
+                        <tr>
+                            <td>{{ ingredient }}</td>
+                            <td>{{ quantity }} g</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</body>
+</html>
